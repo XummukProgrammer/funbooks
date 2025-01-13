@@ -2,12 +2,13 @@
 const ObjectId = require('mongodb').ObjectId
 const DatabaseModule = require('../Modules/database-module.js')
 const TokensModel = require('./tokens-model.js')
+const CrypterModule = require('../Modules/crypter-module.js')
 
 exports.create = async (userLogin, userPassword) => {
     const users = DatabaseModule.getUsers()
     await users.insertOne({ 
         'login': userLogin,
-        'password': userPassword
+        'password': await CrypterModule.generate(userPassword)
     })
 }
 
@@ -18,10 +19,17 @@ exports.get = async (id) => {
 
 exports.getByLoginAndPassword = async (login, password) => {
     const users = DatabaseModule.getUsers()
-    return await users.findOne({
-        'login': login,
-        'password': password
-    });
+    const user = await users.findOne({
+        'login': login
+    })
+
+    if (user) {
+        if (await CrypterModule.check(password, user['password'])) {
+            return user;
+        }
+    }
+
+    return null
 }
 
 exports.getByTokenId = async (tokenId) => {
@@ -30,7 +38,7 @@ exports.getByTokenId = async (tokenId) => {
     if (userId) {
         return await this.get(userId)
     }
-    
+
     return null
 }
 

@@ -7,7 +7,7 @@ const app = express()
 const PORT = process.env.port || 3010;
 
 (async () => {
-    await DatabaseModule.connect()
+    await DatabaseModule.connect(app)
 
     app.listen(PORT, () => {
         console.log(`Server listening on ${PORT}`)

@@ -6,10 +6,15 @@ const USERS_COLLECTION = 'users'
 const TOKENS_COLLECTION = 'tokens'
 
 const client = new MongoDB.MongoClient(IP_PORT);
+var app = null
 
-exports.connect = async () => {
+exports.connect = async (_app) => {
+    app = _app
+
     try {
         await client.connect()
+        app.locals.users = this._getUsers()
+        app.locals.tokens = this._getTokens()
     } catch(error) {
         return console.log(error)
     }
@@ -24,9 +29,17 @@ exports.get = () => {
 }
 
 exports.getUsers = () => {
-    return this.get().collection(USERS_COLLECTION)
+    return app.locals.users
 }
 
 exports.getTokens = () => {
+    return app.locals.tokens
+}
+
+exports._getUsers = () => {
+    return this.get().collection(USERS_COLLECTION)
+}
+
+exports._getTokens = () => {
     return this.get().collection(TOKENS_COLLECTION)
 }

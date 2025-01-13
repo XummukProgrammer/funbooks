@@ -7,7 +7,10 @@ const urlencodedParser = express.urlencoded({
     extended: false 
 });
 
-router.post('/add', urlencodedParser, UsersController.add)
+router.post('/create', urlencodedParser, UsersController.create)
+router.post('/login', urlencodedParser, UsersController.login)
+router.get('/get/:tokenId', UsersController.get)
+router.get('/get_all', UsersController.getAll)
 
 exports.get = () => {
     return router

@@ -3,6 +3,7 @@ const MongoDB = require('mongodb')
 const IP_PORT = 'mongodb://127.0.0.1:27017/'
 const DB_NAME = 'funbooks'
 const USERS_COLLECTION = 'users'
+const TOKENS_COLLECTION = 'tokens'
 
 const client = new MongoDB.MongoClient(IP_PORT);
 
@@ -24,4 +25,8 @@ exports.get = () => {
 
 exports.getUsers = () => {
     return this.get().collection(USERS_COLLECTION)
+}
+
+exports.getTokens = () => {
+    return this.get().collection(TOKENS_COLLECTION)
 }

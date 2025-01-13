@@ -17,11 +17,19 @@ exports.get = async (id) => {
     return await users.findOne({ _id: new ObjectId(id) })
 }
 
-exports.getByLoginAndPassword = async (login, password) => {
+exports.getByLogin = async (login) => {
     const users = DatabaseModule.getUsers()
-    const user = await users.findOne({
+    return await users.findOne({
         'login': login
     })
+}
+
+exports.has = async (login) => {
+    return await this.getByLogin(login) != null
+}
+
+exports.getByLoginAndPassword = async (login, password) => {
+    const user = await getByLogin(login)
 
     if (user) {
         if (await CrypterModule.check(password, user['password'])) {

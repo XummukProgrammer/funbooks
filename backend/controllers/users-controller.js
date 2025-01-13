@@ -4,11 +4,21 @@ const TokensModel = require('../models/tokens-model.js')
 exports.create = async (request, response) => {
     const userLogin = request.body.login
     const userPassword = request.body.password
-    await UsersModel.create(userLogin, userPassword)
+    const hasUser = await UsersModel.has(userLogin)
+    
     response.setHeader('Content-Type', 'application/json');
-    response.end(JSON.stringify({
-        'error': ''
-    }))
+    
+    if (!hasUser) {
+        await UsersModel.create(userLogin, userPassword)
+    
+        response.end(JSON.stringify({
+            'error': ''
+        }))
+    } else {
+        response.end(JSON.stringify({
+            'error': 'The user already exists'
+        }));
+    }
 }
 
 exports.login = async (request, response) => {

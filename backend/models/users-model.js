@@ -50,6 +50,10 @@ exports.getByTokenId = async (tokenId) => {
     return null
 }
 
+exports.hasByTokenId = async(tokenId) => {
+    return await this.getByTokenId(tokenId) != null
+}
+
 exports.getAll = async () => {
     const users = DatabaseModule.getUsers()
     return await users.find({ }).toArray()

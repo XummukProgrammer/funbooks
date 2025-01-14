@@ -13,6 +13,7 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "express": "^4.21.2",
+    "is-json": "^2.0.1",
     "mongodb": "^6.12.0"
   }
 }

@@ -2,10 +2,11 @@ const BooksModel = require('../models/books-model.js')
 
 exports.create = async (request, response) => {
     const tokenId = request.body.tokenId
+    const categoryId = request.body.categoryId
     const text = request.body.text
     const tags = JSON.parse(request.body.tags)
 
-    const success = await BooksModel.create(tokenId, text, tags)
+    const success = await BooksModel.create(tokenId, categoryId, text, tags)
 
     response.setHeader('Content-Type', 'application/json');
 

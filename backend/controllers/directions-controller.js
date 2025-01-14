@@ -1,15 +1,14 @@
-const CategoriesModel = require('../models/categories-model.js')
+const DirectionsModel = require('../models/directions-model.js')
 
 exports.create = async (request, response) => {
     const name = request.body.name
-    const directionId = request.body.directionId
 
-    const category = await CategoriesModel.create(name, directionId)
+    const direction = await DirectionsModel.create(name)
 
     response.setHeader('Content-Type', 'application/json');
     response.end(JSON.stringify({
         'data': {
-            'categoryId': category['insertedId']
+            'directionId': direction['insertedId']
         },
         'error': ''
     }))
@@ -18,32 +17,32 @@ exports.create = async (request, response) => {
 exports.get = async (request, response) => {
     const id = request.params.id
 
-    const category = await CategoriesModel.get(id)
+    const direction = await DirectionsModel.get(id)
 
     response.setHeader('Content-Type', 'application/json');
 
-    if (category) {
+    if (direction) {
         response.end(JSON.stringify({
             'data': {
-                'category': category
+                'direction': direction
             },
             'error': ''
         }))
     } else {
         response.end(JSON.stringify({
-            'error': 'Category not found'
+            'error': 'Direction not found'
         }))
     }
 }
 
 exports.getAll = async (request, response) => {
-    const categories = await CategoriesModel.getAll()
+    const directions = await DirectionsModel.getAll()
 
     response.setHeader('Content-Type', 'application/json');
 
     response.end(JSON.stringify({
         'data': {
-            'categories': categories
+            'directions': directions
         },
         'error': ''
     }))

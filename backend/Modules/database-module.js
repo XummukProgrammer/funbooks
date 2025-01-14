@@ -7,6 +7,7 @@ const TOKENS_COLLECTION = 'tokens'
 const BOOKS_COLLECTION = 'books'
 const TAGS_COLLECTION = 'tags'
 const CATEGORIES_COLLECTION = 'categories'
+const DIRECTIONS_COLLECTION = 'directions'
 
 const client = new MongoDB.MongoClient(IP_PORT);
 var app = null
@@ -21,6 +22,7 @@ exports.connect = async (_app) => {
         app.locals.books = this._getBooks()
         app.locals.tags = this._getTags()
         app.locals.categories = this._getCategories()
+        app.locals.directions = this._getDirections()
     } catch(error) {
         return console.log(error)
     }
@@ -54,6 +56,10 @@ exports.getCategories = () => {
     return app.locals.categories
 }
 
+exports.getDirections = () => {
+    return app.locals.directions
+}
+
 exports._getUsers = () => {
     return this.get().collection(USERS_COLLECTION)
 }
@@ -72,4 +78,8 @@ exports._getTags = () => {
 
 exports._getCategories = () => {
     return this.get().collection(CATEGORIES_COLLECTION)
+}
+
+exports._getDirections = () => {
+    return this.get().collection(DIRECTIONS_COLLECTION)
 }

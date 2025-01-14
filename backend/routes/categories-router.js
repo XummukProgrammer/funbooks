@@ -8,6 +8,8 @@ const urlencodedParser = express.urlencoded({
 });
 
 router.post('/create', urlencodedParser, CategoriesController.create)
+router.get('/get/:id', CategoriesController.get)
+router.get('/get_all', CategoriesController.getAll)
 
 exports.get = () => {
     return router;

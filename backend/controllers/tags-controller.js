@@ -2,8 +2,9 @@ const TagsModel = require('../models/tags-model.js')
 
 exports.create = async (request, response) => {
     const name = request.body.name
+    const ratingId = request.body.ratingId
 
-    const tag = await TagsModel.create(name)
+    const tag = await TagsModel.create(name, ratingId)
 
     response.setHeader('Content-Type', 'application/json');
     response.end(JSON.stringify({

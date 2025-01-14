@@ -1,13 +1,19 @@
+const ObjectId = require('mongodb').ObjectId
 const UsersModel = require('./users-model.js')
 const DatabaseModule = require('../Modules/database-module.js')
 
-exports.create = async (tokenId, categoryId, text, tags) => {
+exports.create = async (tokenId, categoryId, text, _tags) => {
+    var tags = []
+    _tags.forEach(element => {
+        tags.push(new ObjectId(element))
+    });
+
     const user = await UsersModel.getByTokenId(tokenId)
     if (user) {
         const books = DatabaseModule.getBooks()
         await books.insertOne({
             'userId': user['_id'],
-            'categoryId': categoryId,
+            'categoryId': new ObjectId(categoryId),
             'text': text,
             'tags': tags
         })

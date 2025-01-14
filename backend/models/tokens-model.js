@@ -4,7 +4,7 @@ const DatabaseModule = require('../Modules/database-module.js')
 exports.create = async (userId) => {
     const tokens = DatabaseModule.getTokens()
     return await tokens.insertOne({
-        'userId': userId
+        'userId': new ObjectId(userId)
     })
 }
 

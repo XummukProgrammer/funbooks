@@ -1,8 +1,8 @@
 
 const ObjectId = require('mongodb').ObjectId
-const DatabaseModule = require('../Modules/database-module.js')
+const DatabaseModule = require('../modules/database-module.js')
 const TokensModel = require('./tokens-model.js')
-const CrypterModule = require('../Modules/crypter-module.js')
+const CrypterModule = require('../modules/crypter-module.js')
 
 exports.create = async (userLogin, userPassword) => {
     const users = DatabaseModule.getUsers()

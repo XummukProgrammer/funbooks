@@ -1,5 +1,5 @@
 const ObjectId = require('mongodb').ObjectId
-const DatabaseModule = require('../Modules/database-module.js')
+const DatabaseModule = require('../modules/database-module.js')
 
 exports.create = async (name, factor) => {
     const categories = DatabaseModule.getRatings()

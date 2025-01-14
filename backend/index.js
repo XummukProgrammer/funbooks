@@ -1,5 +1,5 @@
 const express = require('express')
-const DatabaseModule = require('./Modules/database-module.js')
+const DatabaseModule = require('./modules/database-module.js')
 const ApiRouter = require('./routes/api-router.js')
 
 const app = express()

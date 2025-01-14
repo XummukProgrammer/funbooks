@@ -1,7 +1,7 @@
 const ObjectId = require('mongodb').ObjectId
 const UsersModel = require('./users-model.js')
 const TagsModel = require('./tags-model.js')
-const DatabaseModule = require('../Modules/database-module.js')
+const DatabaseModule = require('../modules/database-module.js')
 
 exports.create = async (tokenId, categoryId, _tags, _characters) => {
     var tags = []

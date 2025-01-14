@@ -10,6 +10,7 @@ const CATEGORIES_COLLECTION = 'categories'
 const DIRECTIONS_COLLECTION = 'directions'
 const RATINGS_COLLECTION = 'ratings'
 const CHARACTERS_COLLECTION = 'characters'
+const CHAPTERS_COLLECTION = 'chapters'
 
 const client = new MongoDB.MongoClient(IP_PORT);
 var app = null
@@ -27,6 +28,7 @@ exports.connect = async (_app) => {
         app.locals.directions = this._getDirections()
         app.locals.ratings = this._getRatings()
         app.locals.characters = this._getCharacters()
+        app.locals.chapters = this._getChapters()
     } catch(error) {
         return console.log(error)
     }
@@ -72,6 +74,10 @@ exports.getCharacters = () => {
     return app.locals.characters
 }
 
+exports.getChapters = () => {
+    return app.locals.chapters
+}
+
 exports._getUsers = () => {
     return this.get().collection(USERS_COLLECTION)
 }
@@ -102,4 +108,8 @@ exports._getRatings = () => {
 
 exports._getCharacters = () => {
     return this.get().collection(CHARACTERS_COLLECTION)
+}
+
+exports._getChapters = () => {
+    return this.get().collection(CHAPTERS_COLLECTION)
 }

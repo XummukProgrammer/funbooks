@@ -29,7 +29,7 @@ exports.has = async (login) => {
 }
 
 exports.getByLoginAndPassword = async (login, password) => {
-    const user = await getByLogin(login)
+    const user = await this.getByLogin(login)
 
     if (user) {
         if (await CrypterModule.check(password, user['password'])) {

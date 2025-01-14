@@ -5,8 +5,9 @@ exports.create = async (request, response) => {
     const categoryId = request.body.categoryId
     const text = request.body.text
     const tags = JSON.parse(request.body.tags)
+    const characters = JSON.parse(request.body.characters)
 
-    const success = await BooksModel.create(tokenId, categoryId, text, tags)
+    const success = await BooksModel.create(tokenId, categoryId, text, tags, characters)
 
     response.setHeader('Content-Type', 'application/json');
 

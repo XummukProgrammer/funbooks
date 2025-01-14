@@ -5,6 +5,7 @@ const TagsRouter = require('./tags-router.js')
 const CategoriesRouter = require('./categories-router.js')
 const DirectionsRouter = require('./directions-router.js')
 const RatingsRouter = require('./ratings-router.js')
+const CharactersRouter = require('./characters-router.js')
 
 const router = express.Router()
 
@@ -14,6 +15,7 @@ router.use('/tags', TagsRouter.get())
 router.use('/categories', CategoriesRouter.get())
 router.use('/directions', DirectionsRouter.get())
 router.use('/ratings', RatingsRouter.get())
+router.use('/characters', CharactersRouter.get())
 
 exports.get = () => {
     return router;

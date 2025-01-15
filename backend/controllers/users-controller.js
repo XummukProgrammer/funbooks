@@ -2,44 +2,58 @@ const UsersModel = require('../models/users-model.js')
 const TokensModel = require('../models/tokens-model.js')
 
 exports.create = async (request, response) => {
-    const userLogin = request.body.login
-    const userPassword = request.body.password
-    const hasUser = await UsersModel.has(userLogin)
-    
-    response.setHeader('Content-Type', 'application/json');
+    const form = request.body
+    if (!form.login || !form.password) {
+        return response.json({
+            'success': false,
+            'error': 'The parameters were passed incorrectly.'
+        })
+    }
+
+    const login = form.login
+    const password = form.password
+    const hasUser = await UsersModel.has(login)
     
     if (!hasUser) {
-        await UsersModel.create(userLogin, userPassword)
+        await UsersModel.create(login, password)
     
-        response.end(JSON.stringify({
-            'error': ''
-        }))
+        response.json({
+            'success': true
+        })
     } else {
-        response.end(JSON.stringify({
+        response.json({
+            'success': false,
             'error': 'The user already exists'
-        }));
+        })
     }
 }
 
 exports.login = async (request, response) => {
-    const userLogin = request.body.login
-    const userPassword = request.body.password
-    const user = await UsersModel.getByLoginAndPassword(userLogin, userPassword)
-    
-    response.setHeader('Content-Type', 'application/json');
+    const form = request.body
+    if (!form.login || !form.password) {
+        return response.json({
+            'success': false,
+            'error': 'The parameters were passed incorrectly.'
+        })
+    }
 
+    const login = form.login
+    const password = form.password
+    const user = await UsersModel.getByLoginAndPassword(login, password)
+    
     if (user)  {
         const token = await TokensModel.create(user['_id'])
-        response.end(JSON.stringify({
+        response.json({
             'data': {
                 'tokenId': token['insertedId']
             },
-            'error': ''
-        }))
+            'success': true
+        })
     } else {
-        response.end(JSON.stringify({
+        response.json({
+            'success': false,
             'error': 'Invalid username or password'
-        }));
+        })
     }
 }
 
@@ -47,25 +61,28 @@ exports.get = async (request, response) => {
     const tokenId = request.params.tokenId
     const user = await UsersModel.getByTokenId(tokenId)
 
-    response.setHeader('Content-Type', 'application/json');
-
     if (user) {
-        response.end(JSON.stringify({
+        response.json({
             'data': {
                 'user': user
             },
-            'error': ''
-        }));
+            'success': true
+        })
     } else {
-        response.end(JSON.stringify({
+        response.json({
+            'success': false,
             'error': 'The user was not found'
-        }));
+        })
     }
 }
 
 exports.getAll = async (request, response) => {
     const users = await UsersModel.getAll()
 
-    response.setHeader('Content-Type', 'application/json');
-    response.end(JSON.stringify(users))
+    response.json({
+        'data': {
+            'users': users
+        },
+        'success': true
+    })
 }

@@ -6,7 +6,7 @@ exports.create = async (userId, categoryId, tags, characters) => {
     const books = DatabaseModule.getBooks()
     return await books.insertOne({
         'userId': userId,
-        'categoryId': new ObjectId(categoryId),
+        'categoryId': categoryId,
         'ratingId': await TagsModel.getRatingId(tags),
         'tags': tags,
         'characters': characters

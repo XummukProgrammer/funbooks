@@ -28,3 +28,14 @@ exports.create = async (tokenId, categoryId, _tags, _characters) => {
     }
     return false
 }
+
+exports.get = async (id) => {
+    const books = DatabaseModule.getBooks()
+    return await books.findOne({
+        '_id': new ObjectId(id)
+    })
+}
+
+exports.has = async (id) => {
+    return await this.get(id) != null
+}

@@ -1,27 +1,18 @@
 const ChaptersModel = require('../models/chapters-model.js')
-const BooksModel = require('../models/books-model.js')
 
 exports.create = async (request, response) => {
     const form = request.body
-    if (!form.bookId || !form.title || !form.text) {
+    if (!form.title || !form.text) {
         return response.json({
             'success': false,
             'error': 'The parameters were passed incorrectly.'
         })
     }
 
-    const bookId = form.bookId
     const title = form.title
     const text = form.text
 
-    if (!await BooksModel.has(bookId)) {
-        return response.json({
-            'success': false,
-            'error': 'The book was not found.'
-        })
-    }
-
-    const chapter = await ChaptersModel.create(bookId, title, text)
+    const chapter = await ChaptersModel.create(request.book._id, title, text)
 
     response.json({
         'data': {
@@ -67,16 +58,7 @@ exports.getByBookId = async (request, response) => {
         })
     }
 
-    const bookId = params.bookId
-
-    if (!await BooksModel.has(bookId)) {
-        return response.json({
-            'success': false,
-            'error': 'The book was not found.'
-        })
-    }
-
-    const chapters = await ChaptersModel.getByBookId(bookId)
+    const chapters = await ChaptersModel.getByBookId(request.book._id)
 
     response.json({
         'data': {

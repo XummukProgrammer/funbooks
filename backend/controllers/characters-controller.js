@@ -1,49 +1,51 @@
 const CharactersModel = require('../models/characters-model.js')
 
 exports.create = async (request, response) => {
-    const name = request.body.name
+    const form = request.body
+    if (!form.name) {
+        return response.json({
+            'success': false,
+            'error': 'The parameters were passed incorrectly.'
+        })
+    }
 
+    const name = form.name
     const character = await CharactersModel.create(name)
 
-    response.setHeader('Content-Type', 'application/json');
-    response.end(JSON.stringify({
+    response.json({
         'data': {
             'characterId': character['insertedId']
         },
-        'error': ''
-    }))
+        'success': true
+    })
 }
 
 exports.get = async (request, response) => {
     const id = request.params.id
-
     const character = await CharactersModel.get(id)
 
-    response.setHeader('Content-Type', 'application/json');
-
     if (character) {
-        response.end(JSON.stringify({
+        response.json({
             'data': {
                 'character': character
             },
-            'error': ''
-        }))
+            'success': true
+        })
     } else {
-        response.end(JSON.stringify({
+        response.json({
+            'success': false,
             'error': 'Character not found'
-        }))
+        })
     }
 }
 
 exports.getAll = async (request, response) => {
     const characters = await CharactersModel.getAll()
 
-    response.setHeader('Content-Type', 'application/json');
-
-    response.end(JSON.stringify({
+    response.json({
         'data': {
             'characters': characters
         },
-        'error': ''
-    }))
+        'success': true
+    })
 }

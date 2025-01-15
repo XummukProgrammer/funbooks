@@ -40,8 +40,6 @@ exports.create = async (request, response) => {
 
     const success = await BooksModel.create(tokenId, categoryId, tags, characters)
 
-    response.setHeader('Content-Type', 'application/json');
-
     if (success) {
         response.json({
             'success': true

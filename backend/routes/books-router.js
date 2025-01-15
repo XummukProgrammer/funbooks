@@ -8,7 +8,7 @@ const urlencodedParser = express.urlencoded({
     extended: false 
 });
 
-router.post('/create', urlencodedParser, UsersMiddleware.isAuthenticatePost, BooksController.create)
+router.post('/create', urlencodedParser, UsersMiddleware.isAuthenticate, BooksController.create)
 
 exports.get = () => {
     return router;

@@ -1,6 +1,6 @@
 const UsersModel = require('../models/users-model.js')
 
-exports.isAuthenticateGet = async (request, response, next) => {
+async function isAuthenticateGet(request, response, next) {
     const tokenId = request.params.tokenId
 
     if (!await UsersModel.hasByTokenId(tokenId)) {
@@ -13,7 +13,7 @@ exports.isAuthenticateGet = async (request, response, next) => {
     next()
 }
 
-exports.isAuthenticatePost = async (request, response, next) => {
+async function isAuthenticatePost(request, response, next) {
     const form = request.body
 
     if (!form.tokenId) {
@@ -33,4 +33,12 @@ exports.isAuthenticatePost = async (request, response, next) => {
     }
 
     next()
+}
+
+exports.isAuthenticate = async (request, response, next) => {
+    if (request.method == 'GET') {
+        return isAuthenticateGet(request, response, next)
+    } else if (request.method == 'POST') {
+        return isAuthenticatePost(request, response, next)
+    }
 }

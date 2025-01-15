@@ -1,70 +1,80 @@
 const TagsModel = require('../models/tags-model.js')
+const RatingsModel = require('../models/ratings-model.js')
 
 exports.create = async (request, response) => {
+    const form = request.body
+    if (!form.name || !form.ratingId) {
+        return response.json({
+            'success': false,
+            'error': 'The parameters were passed incorrectly.'
+        })
+    }
+
     const name = request.body.name
     const ratingId = request.body.ratingId
 
+    if (!await RatingsModel.has(ratingId)) {
+        return response.json({
+            'success': false,
+            'error': 'The rating was not found.'
+        })
+    }
+
     const tag = await TagsModel.create(name, ratingId)
 
-    response.setHeader('Content-Type', 'application/json');
-    response.end(JSON.stringify({
+    response.json({
         'data': {
             'tagId': tag['insertedId']
         },
-        'error': ''
-    }))
+        'success': true
+    })
 }
 
 exports.getFromId = async (request, response) => {
     const id = request.params.id
-
     const tag = await TagsModel.getFromId(id)
 
-    response.setHeader('Content-Type', 'application/json');
-
     if (tag) {
-        response.end(JSON.stringify({
+        response.json({
             'data': {
                 'tag': tag
             },
-            'error': ''
-        }))
+            'success': true
+        })
     } else {
-        response.end(JSON.stringify({
-            'error': 'Tag not found'
-        }))
+        response.json({
+            'success': false,
+            'error': 'Tag not found.'
+        })
     }
 }
 
 exports.getFromName = async (request, response) => {
     const name = request.params.name
-
     const tag = await TagsModel.getFromName(name)
 
-    response.setHeader('Content-Type', 'application/json');
-
     if (tag) {
-        response.end(JSON.stringify({
+        response.json({
             'data': {
                 'tag': tag
             },
-            'error': ''
-        }))
+            'success': true
+        })
     } else {
-        response.end(JSON.stringify({
-            'error': 'Tag not found'
-        }))
+        response.json({
+            'success': false,
+            'error': 'Tag not found.'
+        })
     }
 }
 
 exports.getAll = async (request, response) => {
     const tags = await TagsModel.getAll()
 
-    response.setHeader('Content-Type', 'application/json');
-    response.end(JSON.stringify({
+    response.json({
         'data': {
             'tags': tags
         },
-        'error': ''
-    }))
+        'success': true
+    })
 }

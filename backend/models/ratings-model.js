@@ -16,6 +16,10 @@ exports.get = async (id) => {
     })
 }
 
+exports.has = async (id) => {
+    return await this.get(id) != null
+}
+
 exports.getFromIds = async (ids) => {
     const output = []
     for (const id of ids) {

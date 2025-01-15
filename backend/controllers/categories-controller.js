@@ -1,9 +1,8 @@
 const CategoriesModel = require('../models/categories-model.js')
-const DirectionsModel = require('../models/directions-model.js')
 
 exports.create = async (request, response) => {
     const form = request.body
-    if (!form.name || !form.directionId) {
+    if (!form.name) {
         return response.json({
             'success': false,
             'error': 'The parameters were passed incorrectly.'
@@ -11,16 +10,8 @@ exports.create = async (request, response) => {
     }
 
     const name = form.name
-    const directionId = form.directionId
 
-    if (!await DirectionsModel.has(directionId)) {
-        return response.json({
-            'success': false,
-            'error': 'The direction was not found.'
-        })
-    }
-
-    const category = await CategoriesModel.create(name, directionId)
+    const category = await CategoriesModel.create(name, request.direction._id)
 
     response.json({
         'data': {

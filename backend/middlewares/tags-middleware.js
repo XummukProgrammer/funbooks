@@ -1,14 +1,14 @@
 const isJSON = require('is-json')
 const TagsModel = require('../models/tags-model.js')
 
-async function getTags(tags, request, response, next) {
-    if (!isJSON.strict(tags)) {
+async function getTags(_tags, request, response, next) {
+    if (!isJSON.strict(_tags)) {
         return response.json({
             'success': false,
             'error': 'The tags parameters are not a valid JSON string.'
         })
     }
-    const jsonTags = JSON.parse(tags)
+    const jsonTags = JSON.parse(_tags)
     var tags = []
     for (const id of jsonTags) {
         const tag = await TagsModel.getFromId(id)

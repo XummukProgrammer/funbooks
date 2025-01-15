@@ -15,6 +15,10 @@ exports.get = async (id) => {
     })
 }
 
+exports.has = async (id) => {
+    return await this.get(id) != null
+}
+
 exports.getAll = async () => {
     const categories = DatabaseModule.getDirections()
     return await categories.find({ }).toArray()

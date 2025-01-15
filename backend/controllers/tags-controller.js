@@ -1,9 +1,8 @@
 const TagsModel = require('../models/tags-model.js')
-const RatingsModel = require('../models/ratings-model.js')
 
 exports.create = async (request, response) => {
     const form = request.body
-    if (!form.name || !form.ratingId) {
+    if (!form.name) {
         return response.json({
             'success': false,
             'error': 'The parameters were passed incorrectly.'
@@ -11,16 +10,7 @@ exports.create = async (request, response) => {
     }
 
     const name = request.body.name
-    const ratingId = request.body.ratingId
-
-    if (!await RatingsModel.has(ratingId)) {
-        return response.json({
-            'success': false,
-            'error': 'The rating was not found.'
-        })
-    }
-
-    const tag = await TagsModel.create(name, ratingId)
+    const tag = await TagsModel.create(name, request.rating._id)
 
     response.json({
         'data': {

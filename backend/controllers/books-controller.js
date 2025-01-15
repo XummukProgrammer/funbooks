@@ -1,7 +1,6 @@
 const isJSON = require('is-json')
 const BooksModel = require('../models/books-model.js')
 const CategoriesModel = require('../models/categories-model.js')
-const UsersModel = require('../models/users-model.js')
 const TagsModel = require('../models/tags-model.js')
 const CharactersModel = require('../models/characters-model.js')
 
@@ -31,7 +30,7 @@ async function getCharactersFromForm(form) {
 
 exports.create = async (request, response) => {
     const form = request.body
-    if (!form.tokenId || !form.categoryId || !form.tags || !form.characters) {
+    if (!form.categoryId || !form.tags || !form.characters) {
         return response.json({
             'success': false,
             'error': 'The parameters were passed incorrectly.'
@@ -45,15 +44,7 @@ exports.create = async (request, response) => {
         })
     }
 
-    const tokenId = form.tokenId
     const categoryId = form.categoryId
-
-    if (!await UsersModel.hasByTokenId(tokenId)) {
-        return response.json({
-            'success': false,
-            'error': 'Invalid token.'
-        })
-    }
 
     if (!await CategoriesModel.has(categoryId)) {
         return response.json({

@@ -31,14 +31,6 @@ exports.create = async (request, response) => {
 }
 
 exports.get = async (request, response) => {
-    const params = request.params
-    if (!params.id) {
-        return response.json({
-            'success': false,
-            'error': 'The parameters were passed incorrectly.'
-        })
-    }
-
     const id = params.id
     const category = await CategoriesModel.get(id)
 

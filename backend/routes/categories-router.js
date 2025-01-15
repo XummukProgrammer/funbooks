@@ -1,5 +1,6 @@
 const express = require('express')
 const CategoriesController = require('../controllers/categories-controller.js')
+const UsersMiddleware = require('../middlewares/users-middleware.js')
 
 const router = express.Router()
 
@@ -7,9 +8,9 @@ const urlencodedParser = express.urlencoded({
     extended: false 
 });
 
-router.post('/create', urlencodedParser, CategoriesController.create)
-router.get('/get/:id', CategoriesController.get)
-router.get('/get_all', CategoriesController.getAll)
+router.post('/create', urlencodedParser, UsersMiddleware.isAuthenticatePost, CategoriesController.create)
+router.get('/get/:tokenId/:id', UsersMiddleware.isAuthenticateGet, CategoriesController.get)
+router.get('/get_all/:tokenId', UsersMiddleware.isAuthenticateGet, CategoriesController.getAll)
 
 exports.get = () => {
     return router;

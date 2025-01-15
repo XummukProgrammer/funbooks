@@ -1,5 +1,6 @@
 const express = require('express')
 const UsersController = require('../controllers/users-controller.js')
+const UsersMiddleware = require('../middlewares/users-middleware.js')
 
 const router = express.Router()
 
@@ -10,7 +11,7 @@ const urlencodedParser = express.urlencoded({
 router.post('/create', urlencodedParser, UsersController.create)
 router.post('/login', urlencodedParser, UsersController.login)
 router.get('/get/:tokenId', UsersController.get)
-router.get('/get_all', UsersController.getAll)
+router.get('/get_all/:tokenId', UsersMiddleware.isAuthenticateGet, UsersController.getAll)
 
 exports.get = () => {
     return router

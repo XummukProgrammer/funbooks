@@ -8,9 +8,9 @@ const urlencodedParser = express.urlencoded({
     extended: false 
 });
 
-router.post('/create', urlencodedParser, UsersMiddleware.isAuthenticate, RatingsController.create)
-router.get('/get/:tokenId/:id', UsersMiddleware.isAuthenticate, RatingsController.get)
-router.get('/get_all/:tokenId', UsersMiddleware.isAuthenticate, RatingsController.getAll)
+router.post('/create', urlencodedParser, UsersMiddleware.authenticate, RatingsController.create)
+router.get('/get/:tokenId/:id', UsersMiddleware.authenticate, RatingsController.get)
+router.get('/get_all/:tokenId', UsersMiddleware.authenticate, RatingsController.getAll)
 
 exports.get = () => {
     return router;

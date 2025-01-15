@@ -4,7 +4,7 @@ async function getUserByTokenId(tokenId) {
     return await UsersModel.getByTokenId(tokenId)
 }
 
-async function isAuthenticateGet(request, response, next) {
+async function authenticateGet(request, response, next) {
     const tokenId = request.params.tokenId
     const user = await getUserByTokenId(tokenId)
     if (!user) {
@@ -17,7 +17,7 @@ async function isAuthenticateGet(request, response, next) {
     next()
 }
 
-async function isAuthenticatePost(request, response, next) {
+async function authenticatePost(request, response, next) {
     const form = request.body
 
     if (!form.tokenId) {
@@ -39,10 +39,10 @@ async function isAuthenticatePost(request, response, next) {
     next()
 }
 
-exports.isAuthenticate = async (request, response, next) => {
+exports.authenticate = async (request, response, next) => {
     if (request.method == 'GET') {
-        return isAuthenticateGet(request, response, next)
+        return authenticateGet(request, response, next)
     } else if (request.method == 'POST') {
-        return isAuthenticatePost(request, response, next)
+        return authenticatePost(request, response, next)
     }
 }

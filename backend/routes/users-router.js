@@ -11,7 +11,7 @@ const urlencodedParser = express.urlencoded({
 router.post('/create', urlencodedParser, UsersController.create)
 router.post('/login', urlencodedParser, UsersController.login)
 router.get('/get/:tokenId', UsersController.get)
-router.get('/get_all/:tokenId', UsersMiddleware.isAuthenticate, UsersController.getAll)
+router.get('/get_all/:tokenId', UsersMiddleware.authenticate, UsersController.getAll)
 
 exports.get = () => {
     return router

@@ -13,7 +13,7 @@ const urlencodedParser = express.urlencoded({
 
 router.post('/create', 
     urlencodedParser, 
-    [ UsersMiddleware.isAuthenticate, CategoriesMiddleware.getCategory, TagsMiddleware.getTags, CharactersMiddleware.getCharacters ], 
+    [ UsersMiddleware.authenticate, CategoriesMiddleware.getCategory, TagsMiddleware.getTags, CharactersMiddleware.getCharacters ], 
     BooksController.create)
 
 exports.get = () => {

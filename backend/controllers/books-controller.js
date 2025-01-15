@@ -1,6 +1,5 @@
 const isJSON = require('is-json')
 const BooksModel = require('../models/books-model.js')
-const CategoriesModel = require('../models/categories-model.js')
 const TagsModel = require('../models/tags-model.js')
 const CharactersModel = require('../models/characters-model.js')
 
@@ -30,7 +29,7 @@ async function getCharactersFromForm(form) {
 
 exports.create = async (request, response) => {
     const form = request.body
-    if (!form.categoryId || !form.tags || !form.characters) {
+    if (!form.tags || !form.characters) {
         return response.json({
             'success': false,
             'error': 'The parameters were passed incorrectly.'
@@ -44,28 +43,11 @@ exports.create = async (request, response) => {
         })
     }
 
-    const categoryId = form.categoryId
-
-    if (!await CategoriesModel.has(categoryId)) {
-        return response.json({
-            'success': false,
-            'error': 'Category was not found.'
-        })
-    }
-
     const tags = await getTagsFromForm(form)
     const characters = await getCharactersFromForm(form)
+    await BooksModel.create(request.user._id, request.category._id, tags, characters)
 
-    const success = await BooksModel.create(tokenId, categoryId, tags, characters)
-
-    if (success) {
-        response.json({
-            'success': true
-        })
-    } else {
-        response.json({
-            'success': false,
-            'error': 'It is impossible to create a book.'
-        })
-    }
+    response.json({
+        'success': true
+    })
 }

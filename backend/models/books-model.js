@@ -3,20 +3,15 @@ const UsersModel = require('./users-model.js')
 const TagsModel = require('./tags-model.js')
 const DatabaseModule = require('../modules/database-module.js')
 
-exports.create = async (tokenId, categoryId, tags, characters) => {
-    const user = await UsersModel.getByTokenId(tokenId)
-    if (user) {
-        const books = DatabaseModule.getBooks()
-        await books.insertOne({
-            'userId': user['_id'],
-            'categoryId': new ObjectId(categoryId),
-            'ratingId': await TagsModel.getRatingId(tags),
-            'tags': tags,
-            'characters': characters
-        })
-        return true
-    }
-    return false
+exports.create = async (userId, categoryId, tags, characters) => {
+    const books = DatabaseModule.getBooks()
+    await books.insertOne({
+        'userId': userId,
+        'categoryId': new ObjectId(categoryId),
+        'ratingId': await TagsModel.getRatingId(tags),
+        'tags': tags,
+        'characters': characters
+    })
 }
 
 exports.get = async (id) => {

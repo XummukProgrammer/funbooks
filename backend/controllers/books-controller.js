@@ -45,9 +45,12 @@ exports.create = async (request, response) => {
 
     const tags = await getTagsFromForm(form)
     const characters = await getCharactersFromForm(form)
-    await BooksModel.create(request.user._id, request.category._id, tags, characters)
+    const book = await BooksModel.create(request.user._id, request.category._id, tags, characters)
 
     response.json({
+        'data': {
+            'bookId': book.insertedId
+        },
         'success': true
     })
 }

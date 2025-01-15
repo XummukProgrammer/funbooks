@@ -1,11 +1,10 @@
 const ObjectId = require('mongodb').ObjectId
-const UsersModel = require('./users-model.js')
 const TagsModel = require('./tags-model.js')
 const DatabaseModule = require('../modules/database-module.js')
 
 exports.create = async (userId, categoryId, tags, characters) => {
     const books = DatabaseModule.getBooks()
-    await books.insertOne({
+    return await books.insertOne({
         'userId': userId,
         'categoryId': new ObjectId(categoryId),
         'ratingId': await TagsModel.getRatingId(tags),

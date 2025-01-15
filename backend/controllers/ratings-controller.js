@@ -1,50 +1,60 @@
+const isNumber = require('is-number')
 const RatingsModel = require('../models/ratings-model.js')
 
 exports.create = async (request, response) => {
-    const name = request.body.name
-    const factor = request.body.factor
+    const form = request.body
+    if (!form.name || !form.factor) {
+        return response.json({
+            'success': false,
+            'error': 'The parameters were passed incorrectly.'
+        })
+    }
 
+    if (!isNumber(form.factor)) {
+        return response.json({
+            'success': false,
+            'error': 'A factor is not a number.'
+        })
+    }
+
+    const name = form.name
+    const factor = Number(form.factor)
     const rating = await RatingsModel.create(name, factor)
 
-    response.setHeader('Content-Type', 'application/json');
-    response.end(JSON.stringify({
+    response.json({
         'data': {
             'ratingId': rating['insertedId']
         },
-        'error': ''
-    }))
+        'success': true
+    })
 }
 
 exports.get = async (request, response) => {
     const id = request.params.id
-
     const rating = await RatingsModel.get(id)
 
-    response.setHeader('Content-Type', 'application/json');
-
     if (rating) {
-        response.end(JSON.stringify({
+        response.json({
             'data': {
                 'rating': rating
             },
-            'error': ''
-        }))
+            'success': true
+        })
     } else {
-        response.end(JSON.stringify({
-            'error': 'Rating not found'
-        }))
+        response.json({
+            'success': false,
+            'error': 'Rating not found.'
+        })
     }
 }
 
 exports.getAll = async (request, response) => {
     const ratings = await RatingsModel.getAll()
 
-    response.setHeader('Content-Type', 'application/json');
-
-    response.end(JSON.stringify({
+    response.json({
         'data': {
             'ratings': ratings
         },
-        'error': ''
-    }))
+        'success': true
+    })
 }

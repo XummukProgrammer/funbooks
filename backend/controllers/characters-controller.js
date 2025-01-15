@@ -34,7 +34,7 @@ exports.get = async (request, response) => {
     } else {
         response.json({
             'success': false,
-            'error': 'Character not found'
+            'error': 'Character not found.'
         })
     }
 }

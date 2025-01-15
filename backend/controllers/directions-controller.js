@@ -1,49 +1,51 @@
 const DirectionsModel = require('../models/directions-model.js')
 
 exports.create = async (request, response) => {
-    const name = request.body.name
+    const form = request.body
+    if (!form.name) {
+        return response.json({
+            'success': false,
+            'error': 'The parameters were passed incorrectly.'
+        })
+    }
 
+    const name = form.name
     const direction = await DirectionsModel.create(name)
 
-    response.setHeader('Content-Type', 'application/json');
-    response.end(JSON.stringify({
+    response.json({
         'data': {
             'directionId': direction['insertedId']
         },
-        'error': ''
-    }))
+        'success': true
+    })
 }
 
 exports.get = async (request, response) => {
     const id = request.params.id
-
     const direction = await DirectionsModel.get(id)
 
-    response.setHeader('Content-Type', 'application/json');
-
     if (direction) {
-        response.end(JSON.stringify({
+        response.json({
             'data': {
                 'direction': direction
             },
-            'error': ''
-        }))
+            'success': true
+        })
     } else {
-        response.end(JSON.stringify({
-            'error': 'Direction not found'
-        }))
+        response.json({
+            'success': false,
+            'error': 'Direction not found.'
+        })
     }
 }
 
 exports.getAll = async (request, response) => {
     const directions = await DirectionsModel.getAll()
 
-    response.setHeader('Content-Type', 'application/json');
-
-    response.end(JSON.stringify({
+    response.json({
         'data': {
             'directions': directions
         },
-        'error': ''
-    }))
+        'success': true
+    })
 }

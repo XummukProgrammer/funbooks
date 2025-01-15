@@ -53,7 +53,7 @@ exports.getById = async (request, response) => {
     } else {
         response.json({
             'success': false,
-            'error': 'Chapter not found'
+            'error': 'Chapter not found.'
         })
     }
 }

@@ -52,7 +52,7 @@ exports.get = async (request, response) => {
     } else {
         response.json({
             'success': false,
-            'error': 'Category not found'
+            'error': 'Category not found.'
         })
     }
 }
@@ -64,6 +64,6 @@ exports.getAll = async (request, response) => {
         'data': {
             'categories': categories
         },
-        'error': ''
+        'success': true
     })
 }
